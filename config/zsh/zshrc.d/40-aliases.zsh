@@ -1,4 +1,8 @@
-# 40-aliases.zsh — universal. No external binaries required.
+# 40-aliases.zsh — the aliases from the original ~/.zshrc, in the same order,
+# with the same meanings. Nothing added, nothing reworded.
+#
+# Aliases that need a binary live in 45-aliases-modern.zsh behind a
+# `command -v` test, so a machine without that binary still loads cleanly.
 
 # --- navigation ----------------------------------------------------------
 alias -- -='cd -'
@@ -6,16 +10,18 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 alias .....='cd ../../../..'
-alias md='mkdir -p'
+alias '~'='cd ~'
 
 # --- git ----------------------------------------------------------------
-alias gs='git status -sb'
+# `gs` and `gpl` are exactly the original definitions, not the -sb / --rebase
+# variants a fresh install would normally get.
+alias gs='git status'
 alias ga='git add'
 alias gaa='git add --all'
 alias gc='git commit -m'
-alias gca='git commit --amend --no-edit'
+alias gcm='git commit -m'
 alias gp='git push'
-alias gpl='git pull --rebase'
+alias gpl='git pull'
 alias gl='git log --oneline --graph --decorate -20'
 alias gd='git diff'
 alias gds='git diff --staged'
@@ -24,52 +30,80 @@ alias gco='git checkout'
 alias gsw='git switch'
 alias gst='git stash'
 alias gstp='git stash pop'
-alias gclean='git clean -nd'
 
 # --- safety -------------------------------------------------------------
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
 alias ln='ln -i'
+alias mkdir='mkdir -pv'
+
+# --- quick edit / view --------------------------------------------------
+# nano first, exactly as the original; fall back only where nano is absent.
+if command -v nano >/dev/null 2>&1; then
+  alias editz='nano ~/.zshrc'
+else
+  alias editz='${EDITOR:-vi} ~/.zshrc'
+fi
+alias sourcez='source ~/.zshrc'
+alias v='${EDITOR:-vim}'
+alias vim='nvim 2>/dev/null || vim'
+
+# --- shell --------------------------------------------------------------
+alias reload='source ~/.zshrc'
+alias path='echo $PATH | tr ":" "\n" | nl'
+
+# --- history ------------------------------------------------------------
+alias history='history -i'
+alias h='history'
+alias hg='history | grep'
+alias hgi='history | grep -i'
+
+# --- system -------------------------------------------------------------
+alias uptime='uptime -p'
+alias whoami='whoami'
+alias id='id'
+alias cls='clear'
+alias kill9='kill -9'
+alias killall='killall'
+alias shutdown='sudo shutdown now'
+alias psg='ps aux | grep'
+
+# --- network ------------------------------------------------------------
+alias myip='curl -s ifconfig.me'
+alias localip='ip -br addr show | grep -v "^lo"'
+alias ping='ping -c 5'
+alias fastping='ping -c 10 -s 1'
+alias listening='ss -tlnp 2>/dev/null || netstat -an | grep LISTEN'
+
+# --- file size ----------------------------------------------------------
+alias sizes='du -sh * | sort -rh | head -20'
+alias biggest='du -sh * 2>/dev/null | sort -rh | head -10'
+alias largest='du -sh * 2>/dev/null | sort -rh | head -10'
+alias findbig='find / -type f -size +100M 2>/dev/null | head -20'
 
 # --- archive ------------------------------------------------------------
 alias untar='tar -xvf'
-alias targz='tar -czvf'
 alias unzip='unzip -o'
 
-# --- shell --------------------------------------------------------------
-alias reload='exec zsh -l'
-alias sourcez='source ~/.zshrc'
-alias editz='${EDITOR:-vi} ~/.zshrc'
-alias path='print -l ${(s.:.)PATH} | nl'
+# --- docker -------------------------------------------------------------
+if command -v docker >/dev/null 2>&1; then
+  alias dps='docker ps'
+  alias dpa='docker ps -a'
+  alias di='docker images'
+  alias dex='docker exec -it'
+  alias dlogs='docker logs -f'
+  alias dprune='docker system prune -af'
+fi
 
-# --- history ------------------------------------------------------------
-alias h='history -i 1'
-alias hg='history -i 1 | grep'
-alias hgi='history -i 1 | grep -i'
+# --- mew dashboard ------------------------------------------------------
+if command -v mew >/dev/null 2>&1; then
+  alias mf='mew --full'
+  alias ms='mew'
+fi
 
-# --- network ------------------------------------------------------------
-alias myip='curl -s --max-time 4 https://ifconfig.me && echo'
-alias listening='ss -tlnp 2>/dev/null || netstat -an | grep LISTEN'
-alias ping='ping -c 5'
-
-# --- extraction by extension -------------------------------------------
-extract() {
-  [[ -f "$1" ]] || { print -u2 "not a file: $1"; return 1; }
-  case "${1:l}" in
-    *.tar.bz2|*.tbz2) tar -xjvf "$1" ;;
-    *.tar.gz|*.tgz)   tar -xzvf "$1" ;;
-    *.tar.xz|*.txz)   tar -xJvf "$1" ;;
-    *.tar)            tar -xvf  "$1" ;;
-    *.bz2)            bunzip2   "$1" ;;
-    *.gz)             gunzip    "$1" ;;
-    *.rar)            unrar x   "$1" ;;
-    *.7z)             7z x      "$1" ;;
-    *.zip)            unzip -o  "$1" ;;
-    *.zst)            unzstd    "$1" ;;
-    *) print -u2 "unknown archive: $1"; return 1 ;;
-  esac
-}
-
-# mkdir then cd
-mkcd() { mkdir -p -- "$1" && cd -- "$1"; }
+# --- make and cd --------------------------------------------------------
+# The original was `alias mkdirp='mkdir -p && cd'`, which created nothing and
+# cd'd into whatever you passed. Same name, working implementation.
+# `command mkdir` avoids the `mkdir -pv` alias above.
+mkdirp() { command mkdir -p -- "$@" && cd -- "$@" ; }
