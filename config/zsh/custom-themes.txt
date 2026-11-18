@@ -1,0 +1,6 @@
+# zsh/custom-themes.txt — cloned into $ZSH/custom/themes/<dir> if missing
+# Vendored upstream, never edited here. To customise, layer an override in
+# zshrc.d/ instead of patching the theme, so `git pull` stays clean.
+#
+# Format: <git-url> <directory-name>
+https://github.com/alejandromume/macos-zsh-theme  macos-zsh-theme

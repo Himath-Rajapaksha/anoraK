@@ -18,8 +18,8 @@ exec zsh -l
 | Layer | Source | Lands at |
 |---|---|---|
 | Shell | `config/zsh/` | `~/.zshrc`, `~/.zshenv` |
-| Prompt theme | `config/zsh/themes/macos-zsh-theme` | `~/.oh-my-zsh/custom/themes/` |
-| Zsh plugins | `config/zsh/custom-plugins.txt` | `~/.oh-my-zsh/custom/plugins/` |
+| Zsh plugins | `config/zsh/custom-plugins.txt` | `~/.oh-my-zsh/custom/plugins/` (cloned) |
+| Prompt theme | `config/zsh/custom-themes.txt` | `~/.oh-my-zsh/custom/themes/` (cloned) |
 | Terminal | `config/ghostty/` | `~/.config/ghostty/` |
 | Git | `config/git/gitconfig` | `~/.gitconfig` |
 | OpenCode | `config/opencode/` | `~/.config/opencode/` |
@@ -52,6 +52,8 @@ config/
   zsh/
     .zshrc                entrypoint: loads zshrc.d/*.zsh in order
     .zshenv               tiny, runs for every zsh
+    custom-plugins.txt    upstream clones, never edited here
+    custom-themes.txt
     zshrc.d/
       00-omz.zsh          oh-my-zsh, optional
       10-env.zsh          editor, pager, locale

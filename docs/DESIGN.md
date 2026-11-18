@@ -104,6 +104,11 @@ example. Everything that only makes sense on one box goes there.
   `--smart-case`. Anything relying on GNU grep flags must use `\grep`.
   Reversible with `unalias`.
 - `alias cat='bat --paging=never'` only exists when `bat`/`batcat` is present.
-- The prompt theme is a modified copy of an external one; it no longer
-  prints `Last login:` on every shell, and no longer uses bash-only `PS1`.
+- Third-party zsh plugins and the prompt theme are **cloned, never edited**.
+  `macos-zsh-theme` is upstream `alejandromume/macos-zsh-theme` (MIT) and is
+  left byte-identical so `git pull` inside it stays clean. Its `last -1 -R`
+  banner mis-parses fields and prints a stray line on Debian, and the
+  `export PS1` line is a no-op in zsh — both are upstream bugs, deliberately
+  not patched. If fixed, they belong in a `zshrc.d/` override, not in the
+  theme checkout.
 - `opencode.json` regeneration overwrites in-place edits. Edit the `.tmpl`.

@@ -16,9 +16,9 @@ if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   done
   unset _p
 
-  # Fall back if the custom theme isn't linked in.
-  if [[ ! -f "$ZSH/custom/themes/macos-zsh-theme/macos-theme.zsh-theme" \
-     && ! -d "$ZSH/custom/themes/macos-zsh-theme" ]]; then
+  # The theme is vendored upstream (cloned by bootstrap). If it is missing,
+  # fall back rather than warning on every shell.
+  if [[ ! -f "$ZSH/custom/themes/macos-zsh-theme/macos-theme.zsh-theme" ]]; then
     ZSH_THEME="robbyrussell"
   fi
 

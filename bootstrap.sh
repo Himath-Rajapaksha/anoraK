@@ -91,6 +91,26 @@ phase_fonts() {
   install_fonts
 }
 
+# Clone any manifest entries that are not already present.
+# Manifest format: <git-url> <directory-name>
+_clone_missing() {
+  local manifest="$1" destdir="$2" url dir target
+  [[ -r "$manifest" ]] || return 0
+  while read -r url dir; do
+    [[ -n "$url" && "$url" != \#* ]] || continue
+    target="$destdir/$dir"
+    if [[ -d "$target" ]]; then
+      log "present: $dir"
+    elif (( DRY )); then
+      dry "clone $dir"
+    else
+      log "cloning $dir"
+      as_target git clone --depth 1 --quiet "$url" "$target" 2>/dev/null \
+        && ok "$dir" || warn "clone failed: $dir"
+    fi
+  done < "$manifest"
+}
+
 phase_shell() {
   step "shell"
 
@@ -112,23 +132,8 @@ phase_shell() {
   # oh-my-zsh is optional; without it the fallback prompt in 00-omz.zsh runs.
   local omz="$TARGET_HOME/.oh-my-zsh"
   if [[ -d "$omz" ]]; then
-    link_path "$zshdir/themes/macos-zsh-theme" \
-              "$omz/custom/themes/macos-zsh-theme"
-
-    local url dir
-    while read -r url dir; do
-      [[ -n "$url" && "$url" != \#* ]] || continue
-      local target="$omz/custom/plugins/$dir"
-      if [[ -d "$target" ]]; then
-        log "plugin present: $dir"
-      elif (( DRY )); then
-        dry "clone $dir"
-      else
-        log "cloning $dir"
-        as_target git clone --depth 1 --quiet "$url" "$target" 2>/dev/null \
-          && ok "$dir" || warn "clone failed: $dir"
-      fi
-    done < "$zshdir/custom-plugins.txt"
+    _clone_missing "$zshdir/custom-plugins.txt" "$omz/custom/plugins"
+    _clone_missing "$zshdir/custom-themes.txt"  "$omz/custom/themes"
   else
     warn "oh-my-zsh not installed — run: sh -c \"\$(curl -fsSL https://install.ohmyz.sh)\""
     warn "the shell will still work, with a minimal prompt"
