@@ -65,7 +65,7 @@ one gitignored fragment and one rendered template.
 - Aliases for optional binaries are defined inside `command -v` tests.
 - The `plugins=(...)` array only lists plugins whose directory exists.
 - OS fragments `return 0` unless `/etc/os-release` matches.
-- Tool initialisers (`zoxide`, `atuin`, `direnv`, `broot`) are conditional.
+- Tool initialisers (`zoxide`, `atuin`, `broot`) are conditional.
 - `brew shellenv` probes Linuxbrew, Apple Silicon, and Intel prefixes.
 
 ### Secrets are rendered
@@ -98,11 +98,39 @@ example. Everything that only makes sense on one box goes there.
 - Adding further OSes: write `packages/<os>.txt`, add a `50-distro-<os>.zsh`,
   extend `detect_os`.
 
+## Fidelity: the original config is the specification
+
+The baseline is `~/.zshrc.anoraK.bak.20261118-083135` (317 lines). The
+fragments reproduce it rather than improve it. Verified byte-equal against a
+shell loading the original: `PATH` (after dedup), `setopt`, `bindkey`,
+`zstyle`, the `plugins` array, and 380 of 387 `alias` entries.
+
+Six deltas remain. Each is deliberate; none should be "tidied up" later
+without asking.
+
+| Item | Original | Now | Why |
+|---|---|---|---|
+| `spf` | `alias spf='spf'` | not defined | self-recursive; expanded to itself forever |
+| `aptfix` | alias, one long line | function, same steps | readable; identical effect |
+| `mkdirp` | `mkdir -p && cd` | function that makes the dir, then cds | original created nothing |
+| `cpuinfo` | `lscpu \| head -20` | `lscpu … \|\| sysctl …` | `lscpu` absent on macOS |
+| `diskinfo` | `lsblk -f` | `lsblk … \|\| df -h` | `lsblk` absent on macOS |
+| `meminfo` | `free -h` | `free … \|\| vm_stat` | `free` absent on macOS |
+| `listening` / `ports` | `ss -…` | `ss … \|\| netstat` / `lsof` | `ss` absent on macOS |
+
+On Linux the `||` branch never runs, so the visible behaviour is unchanged
+apart from suppressed stderr when the primary command is missing.
+
+Deliberately *not* reproduced: `GHIDRA_INSTALL_DIR` pointed at
+`/opt/ghidra/ghidra_12.1.4_PUBLIC`, a path that does not exist. It is now
+set only when a build is actually found. `GHIDRA_HOME` is unchanged.
+
 ## Known sharp edges
 
-- `alias grep='rg'` is not defined — `rg` is aliased to itself with
-  `--smart-case`. Anything relying on GNU grep flags must use `\grep`.
-  Reversible with `unalias`.
+- `alias grep='rg'` — this is the original's behaviour, reproduced on
+  purpose. `rg` is not a drop-in replacement for GNU grep; flags such as
+  `-P`, `-r`, and some `-o` combinations differ. Use `\grep` for the real
+  binary.
 - `alias cat='bat --paging=never'` only exists when `bat`/`batcat` is present.
 - Third-party zsh plugins and the prompt theme are **cloned, never edited**.
   `macos-zsh-theme` is upstream `alejandromume/macos-zsh-theme` (MIT) and is

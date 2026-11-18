@@ -56,9 +56,9 @@ config/
     custom-themes.txt
     zshrc.d/
       00-omz.zsh          oh-my-zsh, optional
-      10-env.zsh          editor, pager, locale
+      10-env.zsh          deliberately empty: no EDITOR/PAGER/locale defaults
       20-paths.zsh        PATH, brew, go, nvm, sdkman, ghidra
-      30-tools.zsh        zoxide, atuin, broot, direnv (guarded)
+      30-tools.zsh        zoxide, atuin, broot (guarded)
       40-aliases.zsh      universal aliases
       45-aliases-modern.zsh  eza/bat/rg aliases — only if installed
       50-distro-debian.zsh
