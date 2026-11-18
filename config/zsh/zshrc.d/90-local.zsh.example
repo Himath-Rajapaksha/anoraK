@@ -1,0 +1,9 @@
+# 90-local.zsh — machine-specific. NOT tracked by git.
+# Anything that only makes sense on one box goes here: work VPN paths,
+# employer-internal helpers, hardware quirks, per-host secrets.
+#
+# This file is created empty by bootstrap if it does not exist.
+
+# Example:
+#   export WORK_SSH_KEY="$HOME/.ssh/id_work"
+#   alias vpnup='sudo wg-quick up work'

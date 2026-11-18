@@ -1,0 +1,10 @@
+# sibling work in this folder — not part of the Quartz repo
+index.html
+tokens.css
+components.css
+gallery.js
+docs/
+
+# verification artifacts
+.vfy/
+vfy.log

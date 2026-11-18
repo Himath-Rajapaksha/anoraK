@@ -1,0 +1,1 @@
+/home/anorak/gstack/supabase/config.sh

@@ -1,0 +1,8 @@
+# zsh/custom-plugins.txt — cloned into $ZSH/custom/plugins/<dir> if missing
+# Format: <git-url> <directory-name>
+https://github.com/zsh-users/zsh-completions.git          zsh-completions
+https://github.com/zsh-users/zsh-syntax-highlighting.git  zsh-syntax-highlighting
+https://github.com/zsh-users/zsh-autosuggestions.git      zsh-autosuggestions
+https://github.com/MichaelAquilina/zsh-you-should-use     zsh-you-should-use
+https://github.com/hlissner/zsh-autopair                  zsh-autopair
+https://github.com/Aloxaf/fzf-tab                         fzf-tab

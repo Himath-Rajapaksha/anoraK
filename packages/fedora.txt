@@ -1,0 +1,45 @@
+# packages/fedora.txt — Fedora / RHEL / Rocky / Alma
+# Missing names are skipped with a warning, never fatal.
+
+# --- core shell ----------------------------------------------------------
+zsh
+git
+curl
+wget
+ca-certificates
+gnupg2
+@development-tools
+pkgconf-pkg-config
+
+# --- modern CLI ----------------------------------------------------------
+ripgrep
+fd-find
+fzf
+bat
+eza
+du-dust
+duf
+git-delta
+procs
+hyperfine
+btop
+broot
+zoxide
+atuin
+tealdeer
+jq
+yq
+
+# --- terminal ------------------------------------------------------------
+# ghostty is not in Fedora repos; install from the official COPR or flatpak.
+fonts-ubuntu-mono
+
+# --- dev convenience -----------------------------------------------------
+tmux
+neovim
+tree
+unzip
+zip
+xz
+zstd
+p7zip

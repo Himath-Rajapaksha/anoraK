@@ -1,0 +1,35 @@
+# packages/macos.txt — installed with Homebrew
+# Requires Homebrew: https://brew.sh
+# Missing names are skipped with a warning, never fatal.
+
+# --- modern CLI ----------------------------------------------------------
+ripgrep
+fd
+fzf
+bat
+eza
+dust
+duf
+git-delta
+procs
+hyperfine
+btop
+broot
+zoxide
+atuin
+tealdeer
+jq
+yq
+
+# --- terminal ------------------------------------------------------------
+# ghostty: install the macOS app from https://ghostty.org
+font-ubuntu-mono-nerd-font
+
+# --- dev convenience -----------------------------------------------------
+tmux
+neovim
+tree
+p7zip
+zstd
+coreutils
+gnu-sed

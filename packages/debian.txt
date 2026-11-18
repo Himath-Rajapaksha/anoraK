@@ -1,0 +1,48 @@
+# packages/debian.txt — Debian / Ubuntu / Mint / Pop
+# Only tools that are cheap and genuinely used. Heavy or optional tools
+# (ghidra, nvim configs, language runtimes) are installed by you, not here.
+#
+# Missing names are skipped with a warning, never fatal.
+
+# --- core shell ----------------------------------------------------------
+zsh
+git
+curl
+wget
+ca-certificates
+gnupg
+build-essential
+pkg-config
+
+# --- modern CLI ----------------------------------------------------------
+ripgrep
+fd-find
+fzf
+bat
+eza
+dust
+duf
+delta
+procs
+hyperfine
+btop
+broot
+zoxide
+atuin
+tealdeer
+jq
+yq
+
+# --- terminal ------------------------------------------------------------
+ghostty
+fonts-ubuntu
+
+# --- dev convenience -----------------------------------------------------
+tmux
+neovim
+tree
+unzip
+zip
+xz-utils
+zstd
+7zip
