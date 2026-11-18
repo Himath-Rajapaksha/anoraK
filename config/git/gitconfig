@@ -1,63 +1,18 @@
+# Your original gitconfig, verbatim.
+# Only change: the credential helper is `gh` on PATH instead of the absolute
+# /usr/bin/gh, so the same file works where Homebrew installs it elsewhere.
+
 [user]
 	name = himath
 	email = 147782220+Himath-Rajapaksha@users.noreply.github.com
-
-[init]
-	defaultBranch = main
-
-[core]
-	editor = nvim
-	pager = less -FRX
-	autocrlf = input
-
-[pull]
-	rebase = true
-
-[push]
-	autoSetupRemote = true
-	default = simple
-
-[fetch]
-	prune = true
-
-[rebase]
-	autostash = true
-
-[merge]
-	conflictStyle = zdiff3
-
-[diff]
-	colorMoved = default
-	algorithm = histogram
-
-[rerere]
-	enabled = true
-
-[column]
-	ui = auto
-
-[alias]
-	st = status -sb
-	co = checkout
-	sw = switch
-	br = branch
-	lg = log --oneline --graph --decorate -25
-	last = log -1 HEAD --stat
-	unstage = reset HEAD --
-	amend = commit --amend --no-edit
-	wip = commit -am "wip"
-
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-
-# Use the gh CLI as the credential helper on every OS.
 [credential "https://github.com"]
-	helper =
+	helper = 
 	helper = !gh auth git-credential
-
 [credential "https://gist.github.com"]
-	helper =
+	helper = 
 	helper = !gh auth git-credential
